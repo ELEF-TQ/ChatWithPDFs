@@ -10,17 +10,63 @@ from langchain_community.chat_models import ChatOpenAI
 from langchain_community.llms import HuggingFaceHub
 # from htmlTemplates import css, bot_template, user_template
 
+def get_pdf_text(pdf_docs):
+    text = ""
+    for pdf in pdf_docs:
+        pdf_reader = PdfReader(pdf)
+        for page in pdf_reader.pages:
+            text += page.extract_text()
+    return text 
+        
+        
+def get_text_chunks(raw_text):
+    text_splitter = CharacterTextSplitter(
+        separator="\n",
+        chunk_size=1000,
+        chunk_overlap=200,
+        length_function=len
+    )
+    chunks = text_splitter.split_text(raw_text)
+    return chunks
+ 
+def get_vectorstore(test):
+    return test
+
+def get_conversation_chain(test):
+    return test
+
+
+
 
 
 def main():
+    load_dotenv()
+    
     st.set_page_config(page_title="ChatWithPDF",page_icon=":books")
     st.header("Chat with your PDFs :books:")
     st.text_input("Ask a question about your documents:")
     
     with st.sidebar:
         st.subheader("Your documents")
-        st.file_uploader("upload your PDF documents ...")
-        st.button("Start")
+        pdf_docs = st.file_uploader("upload your PDF documents ...",accept_multiple_files=True)
+       
+        if st.button("Start"):
+            with st.spinner("Loading ..."):
+                ## get pdf text
+                raw_text = get_pdf_text(pdf_docs)       
+        
+                ## get text chunks
+                text_chunks = get_text_chunks(raw_text)
+        
+                
+                ## create verctor store
+                vectorstore = get_vectorstore(text_chunks)
+
+                ## create conversation chain
+                st.session_state.conversation = get_conversation_chain(vectorstore)
+
+             
+           
 
 
 
