@@ -21,8 +21,8 @@ To run this project locally, follow these steps:
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/your-username/chatwithpdf.git
-    cd chatwithpdf
+    git clone https://github.com/your-username/chatwithpdfs.git
+    cd chatwithpdfs
     ```
 
 
@@ -50,8 +50,9 @@ You can set these environment variables in a `.env` file at the root of your pro
 2. Ask questions in natural language about the loaded PDFs using the chat interface.
 
 ## Project Structure
-
 ![PDF-LangChain](https://github.com/user-attachments/assets/c8ed6e32-84d0-4010-a621-b3c89a1f7eed)
 
 
 ## Demo video
+https://github.com/user-attachments/assets/c9cf0b9b-3ab8-487b-9c68-af1b0c7b773b
+
