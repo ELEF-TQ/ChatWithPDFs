@@ -4,8 +4,8 @@ from PyPDF2 import PdfReader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
-from langchain_community.chat_models import ChatOpenAI
-from langchain_community.embeddings.huggingface import  HuggingFaceInstructEmbeddings
+from langchain_openai import ChatOpenAI
+from langchain_community.embeddings.huggingface import HuggingFaceInstructEmbeddings
 from langchain_community.embeddings import OpenAIEmbeddings 
 from langchain_community.vectorstores import FAISS
 from langchain_community.llms import HuggingFaceHub
@@ -73,7 +73,7 @@ def handle_userinput(user_question):
             st.write(bot_template.replace(
                 "{{MSG}}", message.content), unsafe_allow_html=True)
 
-# Main function for the Streamlit app
+
 def main():
     load_dotenv()
     
@@ -88,7 +88,7 @@ def main():
     
     st.header("Chat with your PDFs :books:")
     user_question = st.text_input("Ask a question about your documents:")
-    
+
     if user_question:
         handle_userinput(user_question)
         
@@ -103,7 +103,7 @@ def main():
                 # Clear previous chat history when new PDFs are uploaded
                 st.session_state.chat_history = None
                 
-                with st.spinner("Loading ..."):
+                with st.spinner("Processing and embedding PDFs..."):
                     # Extract PDF text
                     raw_text = get_pdf_text(pdf_docs)
         
@@ -116,5 +116,8 @@ def main():
                     # Create conversation chain
                     st.session_state.conversation = get_conversation_chain(vectorstore)
 
+                # Display message indicating user can start asking questions
+                st.success("PDFs have been processed and embedded. You can now start asking questions!")
+    
 if __name__ == '__main__':
     main()
